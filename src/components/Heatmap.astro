@@ -1,0 +1,102 @@
+---
+interface ContributionDay {
+    contributionCount: number;
+    date: string;
+    weekday: number;
+}
+
+interface Week {
+    contributionDays: ContributionDay[];
+}
+
+interface Calendar {
+    totalContributions: number;
+    weeks: Week[];
+}
+
+const username = "musialsh";
+const res = await fetch("https://api.github.com/graphql", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${import.meta.env.GITHUB_TOKEN}`,
+    },
+    body: JSON.stringify({
+        query: `
+      query ($userName: String!) {
+        user(login: $userName) {
+          contributionsCollection {
+            contributionCalendar {
+              totalContributions
+              weeks {
+                contributionDays {
+                  contributionCount
+                  date
+                  weekday
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+        variables: { userName: username },
+    }),
+});
+
+const data = await res.json();
+const calendar: Calendar =
+    data.data.user.contributionsCollection.contributionCalendar;
+const weeks = calendar.weeks;
+
+const getLevelClass = (count: number) => {
+    if (count === 0) return "bg-default-100";
+    if (count < 3) return "bg-primary-300";
+    if (count < 6) return "bg-primary-500";
+    if (count < 10) return "bg-primary-600";
+    return "bg-primary-700";
+};
+const getBorderLevelClass = (count: number) => {
+    if (count === 0) return "hover:outline hover:outline-default-100";
+    if (count < 3) return "hover:outline hover:outline-primary-300";
+    if (count < 6) return "hover:outline hover:outline-primary-500";
+    if (count < 10) return "hover:outline hover:outline-primary-600";
+    return "hover:outline hover:outline-primary-700";
+};
+---
+
+<div class="font-sans text-default-800 relative">
+    <div
+        class="grid auto-cols-[12px] grid-flow-col grid-rows-7 gap-0.5 overflow-x-auto pb-4 wrapper"
+    >
+        {
+            weeks.map((week) =>
+                week.contributionDays.map((day) => (
+                    <div
+                        class={`h-3 w-3 rounded-sm border border-black/5 ${getLevelClass(
+                            day.contributionCount,
+                        )} ${getBorderLevelClass(day.contributionCount)}`}
+                        title={`${day.contributionCount} contributions on ${day.date}`}
+                        style={`grid-row: ${day.weekday + 1}`}
+                    />
+                )),
+            )
+        }
+    </div>
+
+    <div
+        class="absolute w-8 h-[calc(100%-16px)] bg-linear-to-r from-white from-25% to-transparent top-0 left-0 md:hidden"
+    >
+    </div>
+    <div
+        class="absolute w-8 h-[calc(100%-16px)] bg-linear-to-l from-white from-25% to-transparent top-0 right-0 md:hidden"
+    >
+    </div>
+
+    <!-- <div class="mb-2 text-sm wrapper">
+        <span class="font-semibold">
+            {calendar.totalContributions} contributions
+        </span>
+        in the last year
+    </div> -->
+</div>

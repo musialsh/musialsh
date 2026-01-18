@@ -1,0 +1,21 @@
+{
+  "languages": {
+    "CSS": {
+      "code_actions_on_format": {
+        "source.fixAll": true
+      },
+      "formatter": "prettier"
+    }
+  },
+  "lsp": {
+    "vscode-css-language-server": {
+      "settings": {
+        "css": {
+          "lint": {
+            "unknownAtRules": "ignore"
+          }
+        }
+      }
+    }
+  }
+}
