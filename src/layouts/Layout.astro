@@ -8,9 +8,10 @@ import "../styles/global.css";
         <meta charset="UTF-8" />
         <meta
             name="viewport"
-            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+            content="width=device-width, initial-scale=1.0"
         />
         <meta name="generator" content={Astro.generator} />
+        <meta name="description" content="Software Developer • BSc in Computer Science">
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -29,8 +30,8 @@ import "../styles/global.css";
         <title>Krzysztof Musiał • Software Developer</title>
     </head>
     <body>
-        <div class="w-full max-w-185 mx-auto py-4 md:py-16 space-y-8">
+        <main class="w-full max-w-185 mx-auto py-4 md:py-16 space-y-8">
             <slot />
-        </div>
+        </main>
     </body>
 </html>
