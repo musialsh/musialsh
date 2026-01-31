@@ -50,14 +50,14 @@ const calendar: Calendar =
 const weeks = calendar.weeks;
 
 const getLevelClass = (count: number) => {
-    if (count === 0) return "bg-default-100";
+    if (count === 0) return "bg-default-100 dark:bg-default-800";
     if (count < 3) return "bg-primary-300";
     if (count < 6) return "bg-primary-500";
     if (count < 10) return "bg-primary-600";
     return "bg-primary-700";
 };
 const getBorderLevelClass = (count: number) => {
-    if (count === 0) return "hover:outline hover:outline-default-100";
+    if (count === 0) return "hover:outline hover:outline-default-100 dark:hover:outline-default-900";
     if (count < 3) return "hover:outline hover:outline-primary-300";
     if (count < 6) return "hover:outline hover:outline-primary-500";
     if (count < 10) return "hover:outline hover:outline-primary-600";
@@ -67,6 +67,7 @@ const getBorderLevelClass = (count: number) => {
 
 <div class="font-sans text-default-800 relative">
     <div
+        id="heatmap-container"
         class="grid auto-cols-[12px] grid-flow-col grid-rows-7 gap-0.5 overflow-x-auto wrapper"
     >
         {
@@ -85,11 +86,11 @@ const getBorderLevelClass = (count: number) => {
     </div>
 
     <div
-        class="absolute w-8 h-[calc(100%-16px)] bg-linear-to-r from-white from-25% to-transparent top-0 left-0 md:hidden"
+        class="absolute w-8 h-full bg-linear-to-r from-default-50 dark:from-default-900 from-25% to-transparent top-0 left-0 md:hidden"
     >
     </div>
     <div
-        class="absolute w-8 h-[calc(100%-16px)] bg-linear-to-l from-white from-25% to-transparent top-0 right-0 md:hidden"
+        class="absolute w-8 h-full bg-linear-to-l from-default-50 dark:from-default-900 from-25% to-transparent top-0 right-0 md:hidden"
     >
     </div>
 
@@ -100,3 +101,23 @@ const getBorderLevelClass = (count: number) => {
         in the last year
     </div> -->
 </div>
+
+<script>
+    const heatmap = document.getElementById("heatmap-container");
+    let currentWidth = window.innerWidth;
+
+    const scrollToRight = () => {
+        if (heatmap) {
+            heatmap.scrollLeft = heatmap.scrollWidth;
+        }
+    };
+
+    scrollToRight();
+
+    window.addEventListener("resize", () => {
+        if (window.innerWidth !== currentWidth) {
+            currentWidth = window.innerWidth;
+            scrollToRight();
+        }
+    });
+</script>

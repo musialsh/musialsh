@@ -1,15 +1,17 @@
+---
+import ThemeToggle from "./ThemeToggle.astro";
+---
+
 <header
     class="wrapper flex flex-col-reverse md:flex-row gap-2 items-start md:justify-between"
 >
-    <div>
-        <h1 class="font-medium">Krzysztof Musiał</h1>
+    <div class="w-full">
+        <div class="flex items-center justify-between gap-4 w-full">
+            <h1 class="font-medium">Krzysztof Musiał</h1>
+            <ThemeToggle />
+        </div>
         <h2 class="text-sm text-default-500">
             Software Developer • BSc in Computer Science
         </h2>
-    </div>
-    <div
-        class="text-[9px] font-semibold text-default-500 uppercase px-2 py-1 border border-default-300 rounded-full"
-    >
-        Open for work
     </div>
 </header>
